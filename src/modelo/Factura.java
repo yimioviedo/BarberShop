@@ -19,6 +19,10 @@ public class Factura {
         this.total = total;
     }
 
+    public Factura(int clienteId, double total, String fecha) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     // Getters y setters
     public int getId() {
         return id;
