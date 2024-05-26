@@ -1,14 +1,6 @@
 package modelo;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 public class Cliente {
-    
     
     
     private int id;
@@ -21,19 +13,16 @@ public class Cliente {
     public Cliente() {
     } 
 
-    public Cliente(String nombre, String apellido, String telefono, String email) {
+   public Cliente(int id, String nombre, String apellido, String telefono, String email) {
+        this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
         this.email = email;
     }
 
-    Cliente(int id, String nombre, String apellido, String telefono, String email) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
     // Getters y setters
-    public int getId() {
+   public int getId() {
         return id;
     }
 
@@ -71,17 +60,5 @@ public class Cliente {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-    
-    // Método toString para representar el cliente como una cadena
-    @Override
-    public String toString() {
-        return "Cliente{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", apellido='" + apellido + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", email='" + email + '\'' +
-                '}';
     }
 }

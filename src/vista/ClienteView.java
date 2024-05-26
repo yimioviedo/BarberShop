@@ -1,93 +1,74 @@
 package vista;
 
-import controlador.Controlador;
-import modelo.Cliente;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import controlador.Controlador;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import modelo.Cliente;
 
-public class ClienteView extends JFrame{
-     private final Controlador controlador;
+public class ClienteView extends JInternalFrame {
     private JTextField nombreField, apellidoField, telefonoField, emailField;
-    private JTextArea displayArea;
+    private JButton registrarButton, eliminarButton;
 
-    public ClienteView(Controlador controlador) {
-        this.controlador = controlador;
-        initComponents();
-    }
-
-    private void initComponents() {
+    public ClienteView() {
         setTitle("Gestión de Clientes");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(500, 400);
-        setLocationRelativeTo(null);
+        setSize(400, 300);
+        setClosable(true);
+        setMaximizable(true);
+        setIconifiable(true);
+        setResizable(true);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
+        nombreField = new JTextField(20);
+        apellidoField = new JTextField(20);
+        telefonoField = new JTextField(20);
+        emailField = new JTextField(20);
 
-        JPanel inputPanel = new JPanel(new GridLayout(5, 2));
-        inputPanel.add(new JLabel("Nombre:"));
-        nombreField = new JTextField();
-        inputPanel.add(nombreField);
+        registrarButton = new JButton("Guardar");
+        eliminarButton = new JButton("Eliminar");
 
-        inputPanel.add(new JLabel("Apellido:"));
-        apellidoField = new JTextField();
-        inputPanel.add(apellidoField);
-
-        inputPanel.add(new JLabel("Teléfono:"));
-        telefonoField = new JTextField();
-        inputPanel.add(telefonoField);
-
-        inputPanel.add(new JLabel("Email:"));
-        emailField = new JTextField();
-        inputPanel.add(emailField);
-
-        JButton agregarBtn = new JButton("Agregar");
-        agregarBtn.addActionListener(new ActionListener() {
-            @Override
+        registrarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                agregarCliente();
+                String nombre = nombreField.getText();
+                String apellido = apellidoField.getText();
+                String telefono = telefonoField.getText();
+                String email = emailField.getText();
+                
+                Cliente cliente = new Cliente(0, nombre, apellido, telefono, email);
+                Controlador controlador = new Controlador();
+                try {
+                    controlador.registrarCliente(cliente);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
-        inputPanel.add(agregarBtn);
 
-        panel.add(inputPanel, BorderLayout.NORTH);
-
-        displayArea = new JTextArea();
-        panel.add(new JScrollPane(displayArea), BorderLayout.CENTER);
-
-        JButton actualizarBtn = new JButton("Actualizar");
-        actualizarBtn.addActionListener(new ActionListener() {
-            @Override
+        eliminarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                mostrarClientes();
+                String nombre = nombreField.getText();
+                Controlador controlador = new Controlador();
+                try {
+                    controlador.eliminarCliente(nombre);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
-        panel.add(actualizarBtn, BorderLayout.SOUTH);
 
-        add(panel);
-        mostrarClientes();
-    }
-
-    private void agregarCliente() {
-        String nombre = nombreField.getText();
-        String apellido = apellidoField.getText();
-        String telefono = telefonoField.getText();
-        String email = emailField.getText();
-        Cliente cliente = new Cliente(nombre, apellido, telefono, email);
-        controlador.agregarCliente(cliente);
-        mostrarClientes();
-    }
-
-    private void mostrarClientes() {
-        List<Cliente> clientes = controlador.obtenerTodosLosClientes();
-        displayArea.setText("");
-        for (Cliente cliente : clientes) {
-            displayArea.append(cliente.toString() + "\n");
-        }
+        setLayout(new GridLayout(6, 2));
+        add(new JLabel("Nombre:"));
+        add(nombreField);
+        add(new JLabel("Apellido:"));
+        add(apellidoField);
+        add(new JLabel("Teléfono:"));
+        add(telefonoField);
+        add(new JLabel("Email:"));
+        add(emailField);
+        add(registrarButton);
+        add(eliminarButton);
     }
 }

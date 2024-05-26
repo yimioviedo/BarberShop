@@ -66,19 +66,6 @@ public class Producto {
     public void setStock(int stock) {
         this.stock = stock;
     }
-
-    // Método toString para representar el producto como una cadena
-    @Override
-    public String toString() {
-        return "Producto{" +
-                "id=" + id +
-                ", proveedorId=" + proveedorId +
-                ", nombreProducto='" + nombreProducto + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", precio=" + precio +
-                ", stock=" + stock +
-                '}';
-    }
 }
-    
 
+    
